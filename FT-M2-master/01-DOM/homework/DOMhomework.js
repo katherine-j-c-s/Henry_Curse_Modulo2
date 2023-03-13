@@ -1,12 +1,14 @@
 // Crear un array vacío llamado 'toDoItems'
 // Tu codigo acá:
-
+let toDoItems = []
 
 // En la página 'index.html' hay un elemento span cuyo texto es 'Aplicación creada por:'.
 // Usando querySelector seleccionar dicho span por su id ('createdBy') y luego usando innerHTML
 // agregar tu nombre al final del texto actual. Ej: 'Aplicación creada por Franco'
 // Tu código acá:
-  
+
+let creadaPor = document.querySelector("#createdBy")
+creadaPor.innerHTML = creadaPor.innerHTML + " katherine"
 
 
 // Crear una clase denominada 'ToDo' cuyo constructor debe recibir un único parámetro del tipo string
@@ -16,9 +18,12 @@
 // 2) 'complete'    : debe setearse en false
 // Ayuda: usar 'this' en el constructor
 
-function ToDo (description) {
+class ToDo{
   // Tu código acá:
-  
+  constructor(description){
+    this.description = description;
+    this.complete = false;
+  }
 }
 
 
@@ -27,7 +32,9 @@ function ToDo (description) {
 // Debe setear el atributo 'complete' del ToDo en true
 
 // Tu código acá:
-
+ToDo.prototype.completeToDo = function () {
+  this.complete = true
+}
 
 // Agregar dos parámetros a la función 'buildToDo':
 //    1) Un objeto de la clase ToDo
@@ -49,7 +56,19 @@ function ToDo (description) {
 
 function buildToDo(todo, index) {
   // Tu código acá:
+  let toDoShell = document.createElement("div")
+  toDoShell.setAttribute("class","toDoShell")
+  let toDoText = document.createElement("span")
+  toDoText.innerHTML = todo.description
+  toDoText.setAttribute("id",index)
+  if (todo.complete === true) {
+    toDoText.setAttribute("class","completeText")
+  }
+  toDoShell.appendChild(toDoText);
+  return toDoShell
 }
+let objeto = new ToDo("no se")
+console.log(buildToDo(objeto,2));
 
 // La función 'buildToDos' debe crear un array de objetos toDo y devolverlo
 // Recibirá como parámetro un array de objetos ToDo
@@ -58,6 +77,13 @@ function buildToDo(todo, index) {
 
 function buildToDos(toDos) {
   // Tu código acá:
+  let toDoList = [];
+  if (toDos.length === 0) {
+    return toDoList
+  }
+  let objetosToDo = toDos.map(obj => buildToDo(obj,0))
+  toDoList.push(objetosToDo)
+  return toDoList
 }
 
 // La función 'displayToDos' se va a encargar de que se vean los toDo's en pantalla
