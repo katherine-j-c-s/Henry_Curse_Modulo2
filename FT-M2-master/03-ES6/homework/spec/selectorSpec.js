@@ -73,6 +73,7 @@ describe("matchFunctionMaker", function() {
     var selector = "img.thumbnail";
     var matcher = matchFunctionMaker(selector);
     var sampleDivEl = document.createElement("img");
+    
     sampleDivEl.className = "thumbnail lead lightback"; // el elemento tiene tres distintas clases
     expect(matcher(sampleDivEl)).toEqual(true);
   });

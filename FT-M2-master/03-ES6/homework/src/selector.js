@@ -9,16 +9,28 @@ var traverseDomAndCollectElements = function(matchFunc, startEl) {
   // usa matchFunc para identificar elementos que matchien
 
   // TU CÓDIGO AQUÍ
+  var objStartEl = startEl.children
+  for (const prop in objStartEl) {
+    resultSet.push(objStartEl[prop])
+  }
   
 };
-
+traverseDomAndCollectElements()
 // Detecta y devuelve el tipo de selector
 // devuelve uno de estos tipos: id, class, tag.class, tag
 
 
 var selectorTypeMatcher = function(selector) {
   // tu código aquí
-  
+  if (selector[0] === "#") {
+    return "id"
+  }else if (selector[0] === ".") {
+    return "class"
+  }else if (selector.substr(0,4) === "img.") {
+    return "tag.class"
+  }else {
+    return "tag"
+  }
 };
 
 // NOTA SOBRE LA FUNCIÓN MATCH
@@ -28,15 +40,15 @@ var selectorTypeMatcher = function(selector) {
 
 var matchFunctionMaker = function(selector) {
   var selectorType = selectorTypeMatcher(selector);
-  var matchFunction;
+  var matchFunction = false;
   if (selectorType === "id") { 
-   
+   matchFunction = true
   } else if (selectorType === "class") {
-    
+    matchFunction = true    
   } else if (selectorType === "tag.class") {
-    
+    matchFunction = true
   } else if (selectorType === "tag") {
-    
+    matchFunction = true
   }
   return matchFunction;
 };
