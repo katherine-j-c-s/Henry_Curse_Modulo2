@@ -8,7 +8,7 @@ let toDoItems = []
 // Tu código acá:
 
 let creadaPor = document.querySelector("#createdBy")
-creadaPor.innerHTML = creadaPor.innerHTML + " katherine"
+creadaPor.innerHTML += " katherine"
 
 
 // Crear una clase denominada 'ToDo' cuyo constructor debe recibir un único parámetro del tipo string
@@ -56,19 +56,22 @@ ToDo.prototype.completeToDo = function () {
 
 function buildToDo(todo, index) {
   // Tu código acá:
-  let toDoShell = document.createElement("div")
+  var toDoShell = document.createElement("div")
   toDoShell.setAttribute("class","toDoShell")
-  let toDoText = document.createElement("span")
+  var toDoText = document.createElement("span")
   toDoText.innerHTML = todo.description
   toDoText.setAttribute("id",index)
   if (todo.complete === true) {
     toDoText.setAttribute("class","completeText")
   }
   toDoShell.appendChild(toDoText);
+  toDoShell.addEventListener("click",completeToDo)
   return toDoShell
 }
-let objeto = new ToDo("no se")
-console.log(buildToDo(objeto,2));
+
+//   3) En la función 'buildToDo' agregar un 'click' event listener al elemento 'toDoText', pasándole
+//      esta función como callback
+
 
 // La función 'buildToDos' debe crear un array de objetos toDo y devolverlo
 // Recibirá como parámetro un array de objetos ToDo
@@ -77,13 +80,10 @@ console.log(buildToDo(objeto,2));
 
 function buildToDos(toDos) {
   // Tu código acá:
-  let toDoList = [];
-  if (toDos.length === 0) {
-    return toDoList
-  }
-  let objetosToDo = toDos.map(obj => buildToDo(obj,0))
-  toDoList.push(objetosToDo)
-  return toDoList
+  let arrayObjetosToDo = toDos.map(function(elemento,index) {//el map devulve en el primero (element)cada elemento y en el segundo (index)la posicion de ese elemento
+    return buildToDo(elemento,index)   
+  })//a cada uno de estos lo vas a modificar con esta funcion
+  return arrayObjetosToDo;
 }
 
 // La función 'displayToDos' se va a encargar de que se vean los toDo's en pantalla
@@ -97,6 +97,16 @@ function buildToDos(toDos) {
 
 function displayToDos() {
   // Tu código acá:
+  var toDoContainer = document.querySelector("#toDoContainer")
+  toDoContainer.innerHTML = ""
+  var result = buildToDos(toDoItems)
+  result.map(function (element) {
+    if (element.children[0].innerHTML === "") {// verifica si el texto en el primer hijo de cada elemento tiene algo escrito
+      return false      
+    }else {
+      toDoContainer.appendChild(element)
+    }
+  })
 }
 
 // La función 'addToDo' agregará un nuevo ToDo al array 'toDoItems'
@@ -110,7 +120,11 @@ function displayToDos() {
 
 function addToDo() {
   // Tu código acá:
- 
+  var toDoInput = document.querySelector("#toDoInput")
+  var newTodo = new ToDo(toDoInput.value)//porque es una etiqueta imput, y el texto esta en la propiedad value de esta
+  toDoItems.push(newTodo);
+  toDoInput.value = ""
+  displayToDos()
 }
 
 // Agregar un 'Event Listener' para que cada vez que el botón 'AGREGAR' sea clickeado
@@ -120,6 +134,8 @@ function addToDo() {
 
 // Tu código acá:
 
+let btnAdd = document.querySelector("#addButton")
+btnAdd.addEventListener("click",addToDo)
 
 
 // La función completeToDo se va a ejecutar cuando queramos completar un todo
@@ -131,13 +147,14 @@ function addToDo() {
 //   1) Utilizando el index suministrdo, llamar a 'completeToDo' (Recuerden que habíamos creado dcho método en el
 //      prototipo de la clase ToDo) sobre el elemento correspondiente del array toDoItems
 //   2) Llamar a displayToDos para actualizar los elementos que se van a mostrar en pantalla
-//   3) En la función 'buildToDo' agregar un 'click' event listener al elemento 'toDoText', pasándole
-//      esta función como callback
+
 
 function completeToDo(event) {
   // DESCOMENTAR LA SIGUIENTE LINEA
-  //const index = event.target.id;
+  const index = event.target.id;//acedemos al atributo (al identificador del elemento)
   // Tu código acá:
+  toDoItems[index].completeToDo() //cambia completo a true
+  displayToDos()
   
 }
 
@@ -158,7 +175,7 @@ function completeToDo(event) {
 
 
 // Acá debes insertar la llamada a 'displayToDos'
-
+displayToDos()
 
 // ---------------------------- NO CAMBIES NADA DE ACÁ PARA ABAJO ----------------------------- //
 if (typeof module !== 'undefined') {
