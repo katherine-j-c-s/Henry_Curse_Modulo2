@@ -1,3 +1,17 @@
+.container{
+  display: flex;
+  justify-content: center;
+}
+.forms {
+  display: flex;
+  height: 500px;
+  flex-direction: column;
+  align-items: baseline;
+  justify-content: space-evenly;
+}
+.inputs{
+  display: flex;
+}
 .warning {
   border: solid red 1px;
   border-radius: 0.2em;
